@@ -1,0 +1,42 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.pytest_cache": true,
+    ".venv": true,
+    ".certs": true,
+    ".codex": true,
+    ".test-*": true,
+    ".media-deps": true,
+    ".media-tools": true,
+    ".brand-refresh": true,
+    ".clip-review": true,
+    ".continuity-review": true,
+    ".logo-import": true,
+    ".logo-replacement": true,
+    ".roi-reference": true,
+    ".screen-review": true,
+    "tmp": true,
+    "*.runtime.lock": true,
+    "*.db-shm": true,
+    "*.db-wal": true,
+    "*.bak": true
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "main.py": "auth.py, cameras.py, db.py, gemini_review.py, mobile_gateway.py, playback.py, production.py, reporting.py, runtime_guard.py, station_access.py, supervisor.py, vision.py, workflows.py, calibration_profiles.py",
+    "README.md": "requirements*.txt, .env.example, pytest.ini",
+    "start_windows.bat": "start_mobile.bat, setup_admin.bat, start_mobile.py, setup_admin.py, run_*gateway.py, deploy_*.ps1, restart_*.ps1, prepare_*.py, verify_*.py, apply_*.py, finish_*.py, finalize_*.py, final_access_polish.py, polish_*.py, preflight_*.py, backup_before_*.py, create_supervisor_account.py, set_reference_roi.py, rename_station_word.py, replace_login_logo.py, redesign_login.py, update_report_scopes.py, wire_access_ui.py, make_*videos.py"
+  },
+  "search.exclude": {
+    "artifacts": true,
+    ".test-deps": true,
+    ".test-node": true,
+    ".media-deps": true,
+    ".media-tools": true,
+    "backups": true,
+    "media/playback": true
+  }
+}

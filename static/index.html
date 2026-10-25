@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>SOPVision AI | Intelligent Assembly Inspection</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/clean.css?v=live-layout-9">
+  <link rel="stylesheet" href="/static/vision.css?v=live-layout-9">
+<link rel="stylesheet" href="/static/auth.css"><script src="/static/auth-client.js?v=role-login-2" defer></script><link rel="icon" type="image/png" href="/static/brand/sopvision-logo-current.png?v=brand-4"><link rel="stylesheet" href="/static/brand.css?v=brand-4"></head>
+<body>
+  <svg aria-hidden="true" class="svg-defs" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="ic-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="ic-camera" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="13" rx="2"/><path d="m16 10 5-3v11l-5-3"/><path d="M7 3h6"/></symbol>
+    <symbol id="ic-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5"/><path d="M4 16v4h16v-4"/></symbol>
+    <symbol id="ic-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12"/><path d="m3 6 1 1 2-2M3 12h3M3 18h3"/></symbol>
+    <symbol id="ic-chart" viewBox="0 0 24 24"><path d="M4 20h16M7 16v-6M12 16V5M17 16v-9"/></symbol>
+    <symbol id="ic-zap" viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-12h-7l0-8Z"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="ic-alert" viewBox="0 0 24 24"><path d="m12 3 10 18H2L12 3Z"/><path d="M12 9v5m0 3v.3"/></symbol>
+    <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+    <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></symbol>
+    <symbol id="ic-play" viewBox="0 0 24 24"><path d="m7 4 13 8-13 8V4Z"/></symbol>
+    <symbol id="ic-stop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/></symbol>
+    <symbol id="ic-file" viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M14 2v5h5M8 13h8M8 17h7"/></symbol>
+    <symbol id="ic-spark" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z"/></symbol>
+    <symbol id="ic-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M10 2h4l1 3 2 1 3-1 2 4-2 2v2l2 2-2 4-3-1-2 1-1 3h-4l-1-3-2-1-3 1-2-4 2-2v-2L2 9l2-4 3 1 2-1 1-3Z"/></symbol>
+    <symbol id="ic-x" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>
+    <symbol id="ic-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+    <symbol id="ic-refresh" viewBox="0 0 24 24"><path d="M20 7V3h-4M4 17v4h4"/><path d="M5 9A8 8 0 0 1 20 7M19 15A8 8 0 0 1 4 17"/></symbol>
+    <symbol id="ic-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 11v6m0-10v.5"/></symbol>
+  </svg>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand workspace-brand" href="/" aria-label="SOPVision AI หน้าแรก"><img class="brand-image" src="/static/brand/sopvision-logo-current.png?v=brand-4" width="1024" height="338" alt="SOPVision AI — Intelligent Inspection"></a>
+      <div class="nav-caption">เมนูหลัก</div>
+      <nav class="nav" aria-label="เมนูหลัก">
+        <a class="nav-link" href="/admin"><svg class="icon"><use href="#ic-chart"/></svg><span>แอดมิน / งานผลิตจริง</span></a>
+        <a class="nav-link" href="/worker"><svg class="icon"><use href="#ic-camera"/></svg><span>หน้าพนักงานแต่ละสเตชั่น</span></a>
+        <button class="nav-link active" data-view="overview"><svg class="icon"><use href="#ic-grid"/></svg><span>ภาพรวมระบบ</span></button>
+        <button class="nav-link" data-view="flow"><svg class="icon"><use href="#ic-zap"/></svg><span>เริ่มงาน / สแกน QR</span></button>
+        <button class="nav-link" data-view="live"><svg class="icon"><use href="#ic-camera"/></svg><span>ตรวจสอบสด</span><span class="nav-mini">LIVE</span></button>
+        <button class="nav-link" data-view="upload"><svg class="icon"><use href="#ic-upload"/></svg><span>ตรวจวิดีโอย้อนหลัง</span></button>
+        <button class="nav-link" data-view="sop"><svg class="icon"><use href="#ic-list"/></svg><span>จัดการ SOP</span></button>
+        <button class="nav-link" data-view="reports"><svg class="icon"><use href="#ic-chart"/></svg><span>ประวัติการตรวจ</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-note"><div class="note-icon"><svg class="icon"><use href="#ic-info"/></svg></div><div><b>ก่อนเริ่มงาน</b><p>จัดแสงให้สม่ำเสมอและให้เห็นชิ้นงานครบในภาพ</p></div></div>
+        <div class="version"><span class="online-dot"></span>พร้อมใช้งาน<span>v0.1</span></div>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div class="top-left"><button class="mobile-menu icon-button" id="toggleMenu" aria-label="เปิดเมนู"><svg class="icon"><use href="#ic-menu"/></svg></button><div class="breadcrumbs">งานผลิต<span>/</span> <strong id="pageLabel">ภาพรวม</strong></div></div>
+        <div class="top-right"><span class="top-badge" id="connectionStatus" role="status">กำลังเชื่อมต่อระบบ…</span><div class="user-avatar">SV</div></div>
+      </header>
+      <div class="content">
+        <section class="view active" id="view-overview">
+          
+          <div class="hero">
+            <div class="hero-left"><span class="hero-chip"><svg class="icon"><use href="#ic-spark"/></svg>งานผลิต 3 สเตชั่น</span><h1>ภาพรวมงานผลิต<br><span>สถานะและผลตรวจล่าสุด</span></h1><p>เลือกสเตชั่น สแกน QR และตรวจงานตามขั้นตอน</p><div class="hero-actions"><button class="btn btn-accent" data-goto="flow"><svg class="icon"><use href="#ic-zap"/></svg> เริ่มงานด้วย QR <svg class="icon small"><use href="#ic-arrow"/></svg></button><button class="btn btn-outline" data-goto="upload">ทดลองตรวจวิดีโอ</button></div></div>
+            <div class="hero-visual" aria-hidden="true"><div class="hero-grid"></div><div class="scan-circle outer"></div><div class="scan-circle inner"></div><div class="scan-frame"><span class="scan-label">ภาพตัวอย่าง</span><div class="mock-base"><i class="mock-part p-red"></i><i class="mock-part p-blue"></i><i class="mock-part p-yellow"></i></div><div class="scan-cross a"></div><div class="scan-cross b"></div></div><div class="hero-float"><span class="online-dot"></span>ตัวอย่างชิ้นงาน</div></div>
+          </div>
+          <div class="quick-guide" aria-label="วิธีเริ่มใช้งาน"><div><span>01</span><b>สแกนใบงาน</b><small>เลือกสเตชั่นและกรอกรหัส QR</small></div><div><span>02</span><b>ประกอบตาม SOP</b><small>เปิดกล้องเพื่อตรวจและบันทึก</small></div><div><span>03</span><b>ตรวจผลแล้วส่งต่อ</b><small>ผ่านครบจึงเริ่มสเตชั่นถัดไปได้</small></div></div>
+          <p class="subtitle">ยอดผลิตจริงรวมทุกสเตชั่น ไม่รวมรอบทดสอบ</p><div class="stats-grid" id="statsGrid">
+            <div class="stat-card"><span class="stat-label">ชิ้นงานทั้งหมด</span><div class="stat-value" id="statTotal">0</div><div class="stat-footer"></div><span class="stat-symbol"><svg class="icon"><use href="#ic-list"/></svg></span></div>
+            <div class="stat-card"><span class="stat-label">รอบงานผ่านสเตชั่น</span><div class="stat-value" id="statPass">0</div><div class="stat-footer"></div><span class="stat-symbol teal"><svg class="icon"><use href="#ic-check"/></svg></span></div>
+            <div class="stat-card"><span class="stat-label">รอบงานแยกพัก / หยุด</span><div class="stat-value" id="statReview">0</div><div class="stat-footer"></div><span class="stat-symbol amber"><svg class="icon"><use href="#ic-alert"/></svg></span></div>
+            <div class="stat-card"><span class="stat-label">ชิ้นงานจบครบ</span><div class="stat-value"><span id="statRate">0</span></div><div class="stat-footer"></div><span class="stat-symbol"><svg class="icon"><use href="#ic-chart"/></svg></span></div>
+          </div>
+          <div class="two-panel">
+            <div class="panel"><div class="panel-head"><div><h3>โหมดการตรวจสอบ</h3></div></div><div class="mode-cards"><button class="mode-card" data-goto="live"><div class="mode-icon lime"><svg class="icon"><use href="#ic-camera"/></svg></div><div class="mode-meta"><b>ตรวจผ่านกล้อง</b><span>เปิดกล้องตรวจทันทีระหว่างประกอบ</span></div><svg class="icon chevron"><use href="#ic-chevron"/></svg></button><button class="mode-card" data-goto="upload"><div class="mode-icon blue"><svg class="icon"><use href="#ic-upload"/></svg></div><div class="mode-meta"><b>ตรวจจากวิดีโอ</b><span>วิเคราะห์คลิปและตรวจลำดับย้อนหลัง</span></div><svg class="icon chevron"><use href="#ic-chevron"/></svg></button></div></div>
+            <div class="panel"><div class="panel-head"><div><h3>รายการตรวจล่าสุด</h3></div><button class="link-btn" data-goto="reports">ดูทั้งหมด <svg class="icon small"><use href="#ic-arrow"/></svg></button></div><div class="recent-list" id="recentList"><div class="empty-mini">ยังไม่มีประวัติการตรวจ</div></div></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-flow">
+          <div class="section-head"><div><h1>งานผลิต<span class="title-muted">ตามสเตชั่น</span></h1><p class="subtitle">สแกน QR ใบงานเดิมเพื่อเริ่มบันทึกและตรวจ SOP ของแต่ละสเตชั่น ส่งต่องานได้เมื่อสเตชั่นก่อนหน้าผ่านเท่านั้น</p></div><span class="label-prototype">3 สเตชั่น</span></div>
+          <div class="flow-top-grid">
+            <div class="panel flow-setup-panel">
+              <div class="panel-head"><div><h3>เริ่มงานจาก QR</h3></div><span class="camera-status"><span class="online-dot"></span>สถานะสเตชั่น</span></div>
+              <div class="flow-form">
+                <label for="flowStation">สเตชั่นที่กำลังทำงาน</label>
+                <select id="flowStation" class="flow-input"><option value="1">Station 01 · ฐานและชิ้นส่วน A</option><option value="2">Station 02 · ชิ้นส่วน B และ C</option><option value="3">Station 03 · ตรวจปิดงาน</option></select>
+                <label for="flowOperator">ผู้ปฏิบัติงาน</label>
+                <input id="flowOperator" class="flow-input" maxlength="80" placeholder="เช่น EMP-001" value="EMP-001" autocomplete="off">
+                <label for="flowQr">QR ชิ้นงาน</label>
+                <div class="flow-inline"><input id="flowQr" class="flow-input" maxlength="300" placeholder="สแกนด้วยเครื่องอ่าน QR หรือกรอกรหัสใบงาน" autocomplete="off"><button id="flowQrCameraBtn" class="btn btn-outline" type="button">📷 สแกนกล้อง</button></div>
+                <div class="flow-inline"><button id="flowLookupBtn" class="btn btn-outline" type="button">ตรวจสิทธิ์สเตชั่น</button><button id="flowStartBtn" class="btn btn-accent" type="button"><svg class="icon"><use href="#ic-play"/></svg> สแกนแล้วเริ่มงาน</button></div>
+                <div class="info-banner"><svg class="icon"><use href="#ic-info"/></svg><span>เครื่องสแกน QR แบบ USB ยิงรหัสเข้าช่องนี้แล้วกด Enter ได้ สำหรับการทดสอบใส่ <strong>JOB-DEMO-001</strong> และใช้รหัสเดียวกันทั้ง 3 สเตชั่น</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><div><h3>สถานะการส่งต่องาน</h3></div><span class="steps-count" id="flowJobName">ยังไม่สแกน</span></div>
+              <div class="flow-chain" id="flowChain"><p class="flow-empty">สแกน QR เพื่อดูว่าแต่ละสเตชั่น พร้อม / ล็อก / ผ่าน / แยกพัก</p></div>
+              <div class="flow-gate-message" id="flowGateMessage">เมื่อสเตชั่น 1 ไม่ผ่าน สเตชั่น 2 และ 3 จะไม่สามารถเริ่มงานจาก QR นี้ได้</div>
+            </div>
+          </div>
+          <div class="panel flow-camera-panel">
+            <div class="panel-head"><div><h3>ตรวจสีและจำนวนแบบสด</h3></div><span class="camera-status" id="flowCameraBadge"><span class="online-dot"></span>รอเริ่มงาน</span></div>
+            <div class="flow-cam-grid">
+              <div class="flow-video-wrap"><video id="flowVideo" playsinline autoplay muted></video><canvas id="flowOverlay" class="vision-overlay"></canvas><div class="flow-video-label">● ตรวจสด <strong id="flowRecClock">00:00</strong></div><div id="flowCameraEmpty" class="flow-cam-empty">กล้องจะเริ่มตรวจสีและจำนวนหลังสแกน QR และอนุญาตใช้กล้อง</div></div>
+              <div class="flow-step-panel"><h4>ขั้นตอนของสเตชั่นนี้</h4><div id="flowStepList" class="step-list"><span class="flow-empty">เลือกสเตชั่นก่อนเริ่มงาน</span></div><div id="flowLiveWarning" class="flow-gate-message">ระบบตรวจเฉพาะสีและลำดับที่กำหนด ไม่ได้ยืนยันการประกอบจริงในโรงงาน</div></div>
+            </div>
+            <div class="flow-actions"><button id="flowAbortBtn" class="btn btn-danger" disabled>แยกพักชิ้นงาน</button><span class="toolbar-hint" id="flowRecordHint">ระบบตรวจสีและจำนวนอัตโนมัติเมื่อเห็นชิ้นส่วนครบ วิดีโอเป็นข้อมูลเสริม</span></div>
+          </div>
+          <div id="flowResult" class="result-panel" hidden></div>
+          <div class="info-banner"><svg class="icon"><use href="#ic-info"/></svg><span><strong>ต้นแบบเพื่อการศึกษา:</strong> ล็อกเฉพาะสิทธิ์เริ่มงานในเว็บ ไม่ตัดไฟ ไม่หยุด PLC/เครื่องจักรจริง หาก AI มองไม่ชัดจะไม่ปลดล็อกโดยอัตโนมัติ ควรมีผู้ตรวจสอบและขั้นตอนแก้ไขงานก่อนนำไปใช้ในโรงงาน</span></div>
+        </section>
+
+        <section class="view" id="view-live">
+          <div class="section-head"><div><h1>ตรวจสอบสด <span class="title-muted">ตรวจผ่านกล้อง</span></h1><p class="subtitle">ตรวจลำดับ สี และจำนวนชิ้นส่วนตาม SOP</p></div><span class="label-prototype">ตรวจสีและจำนวน</span></div>
+          <div class="live-station-label"><label for="liveStation">สเตชั่น<select id="liveStation" class="flow-input"></select></label><label for="liveQr">เชื่อมกับ QR งาน (ไม่บังคับ)<input id="liveQr" class="flow-input" maxlength="200" placeholder="กรอก QR ที่มีอยู่ในระบบ"></label><label for="liveAttempt">รหัสรอบงาน (ไม่บังคับ)<input id="liveAttempt" class="flow-input" maxlength="80" placeholder="กรอกรหัสรอบงาน หากต้องการระบุรอบ"></label></div>
+          <div class="work-grid"><div class="panel camera-panel"><div class="panel-head"><div><h3>ภาพจากกล้อง</h3></div><span class="camera-status" id="cameraStatus"><span class="online-dot"></span>รอเริ่มงาน</span></div>
+            <div class="camera-feed"><video autoplay playsinline muted id="webcam"></video><canvas id="liveOverlay" class="vision-overlay"></canvas><div class="camera-placeholder" id="cameraPlaceholder"><div class="camera-placeholder-icon"><svg class="icon"><use href="#ic-camera"/></svg></div><h3>ยังไม่ได้เชื่อมต่อกล้อง</h3><p>กด “เริ่มตรวจสอบสด” เพื่อเปิด Webcam</p></div><div class="camera-overlay-tl">STATION <strong id="liveStationLabel">—</strong></div><div class="camera-overlay-br" id="liveTimestamp">00:00</div><div class="scan-line"></div></div>
+            <div class="camera-toolbar"><button class="btn btn-accent" id="startLive"><svg class="icon"><use href="#ic-play"/></svg> เริ่มตรวจสอบสด</button><button class="btn btn-danger" id="stopLive" disabled><svg class="icon"><use href="#ic-stop"/></svg> หยุดและบันทึกผล</button><span class="toolbar-hint" id="liveHint">รอกล้องพร้อมใช้งาน</span></div>
+            <div class="info-banner"><svg class="icon"><use href="#ic-info"/></svg><span id="liveColorGuide">กำลังโหลดขั้นตอนของสเตชั่น</span></div>
+          </div><div class="panel status-panel"><div class="panel-head"><div><h3>สถานะการประกอบ</h3><p id="liveStepsStation" class="live-steps-station">กำลังโหลดสเตชั่น</p></div><span class="steps-count" id="liveProgress">—</span></div><div class="progress-track"><div id="liveProgressBar" class="progress-fill"></div></div><div class="step-list" id="liveSteps"></div><div class="step-summary" id="liveSummary"><svg class="icon"><use href="#ic-info"/></svg><span>เมื่อเริ่มตรวจสอบ ระบบจะแสดงขั้นตอนที่ตรวจพบ ณ ขณะนั้น</span></div></div></div>
+          <div class="result-panel" id="liveResult" hidden></div>
+        </section>
+
+        <section class="view" id="view-upload">
+          <div class="section-head"><div><h1>ตรวจวิดีโอย้อนหลัง <span class="title-muted"></span></h1><p class="subtitle">อัปโหลดคลิปประกอบชิ้นงาน แล้วตรวจหลักฐานการทำงานทีละขั้นตอน</p></div><span class="label-prototype">ไม่เกิน 80 MB / 2 นาที</span></div>
+          <div class="upload-layout"><div class="panel upload-main"><div class="panel-head"><div><h3>วิดีโอที่ต้องการตรวจสอบ</h3></div></div><label class="upload-station-label" for="uploadStation">สเตชั่น</label><select id="uploadStation" class="flow-input"></select><label class="upload-station-label" for="uploadQr">เชื่อมกับ QR งาน (ไม่บังคับ · ต้องเป็น QR ที่มีอยู่ในระบบ)</label><input id="uploadQr" class="flow-input" maxlength="200" placeholder="กรอก QR เพื่อค้นรวมในประวัติงาน"><label class="upload-station-label" for="uploadAttempt">รหัสรอบงาน (ไม่บังคับ)</label><input id="uploadAttempt" class="flow-input" maxlength="80" placeholder="ระบุเมื่อจะผูกกับรอบงานสเตชั่นที่เจาะจง"><input type="file" id="videoFile" accept="video/mp4,video/quicktime,video/webm,video/x-msvideo,video/x-matroska" hidden><div class="dropzone" id="dropzone" role="button" tabindex="0"><div class="drop-graphic"><svg class="icon"><use href="#ic-upload"/></svg></div><h3>ลากวิดีโอมาวางที่นี่</h3><p>หรือคลิกเพื่อเลือกไฟล์จากคอมพิวเตอร์</p><span>MP4, MOV, AVI, WEBM, MKV · ไม่เกิน 80MB</span></div><div class="upload-preview" id="uploadPreview" hidden><video id="previewVideo" controls preload="metadata"></video><div class="file-details"><div><b id="fileName">filename.mp4</b><span id="fileSize">0MB</span></div><button class="icon-button" id="clearFile" title="ลบไฟล์ที่เลือก"><svg class="icon"><use href="#ic-x"/></svg></button></div></div><div class="upload-actions"><button class="btn btn-accent" id="analyzeBtn" disabled><svg class="icon"><use href="#ic-spark"/></svg> เริ่มวิเคราะห์วิดีโอ</button><span class="toolbar-hint" id="uploadHint">เลือกวิดีโอเพื่อเริ่มต้น</span></div></div>
+            <div class="panel demo-panel"><div class="panel-head"><div><h3>ลองวิดีโอตัวอย่าง</h3></div></div><p class="muted-desc">คลิปตัวอย่างตรวจสีและลำดับที่สเตชั่น 1</p><button class="sample-btn" data-sample="ok"><span class="sample-symbol success"><svg class="icon"><use href="#ic-check"/></svg></span><span><b>วางฐานแล้วติดตั้งชิ้นส่วน</b><small>เขียว → แดง ตามลำดับ</small></span><svg class="icon chevron"><use href="#ic-chevron"/></svg></button><button class="sample-btn" data-sample="wrong"><span class="sample-symbol warning"><svg class="icon"><use href="#ic-alert"/></svg></span><span><b>ติดตั้งผิดลำดับ</b><small>แดงก่อนฐานสีเขียว</small></span><svg class="icon chevron"><use href="#ic-chevron"/></svg></button><div class="mini-separator"></div><h4>วิธีการตรวจ</h4><div class="how-row"><span>01</span> อ่านภาพเป็นช่วงสั้น ๆ</div><div class="how-row"><span>02</span> นับสีของชิ้นงานแต่ละขั้นตอน</div><div class="how-row"><span>03</span> ยืนยันลำดับและจำนวนชิ้นจากภาพล่าสุด</div></div>
+          </div>
+          <div class="result-panel" id="uploadResult" hidden></div>
+        </section>
+
+        <section class="view" id="view-sop">
+          <div class="section-head"><div><h1>จัดการขั้นตอน <span class="title-muted"></span></h1><p class="subtitle">กำหนดลำดับและสีที่ต้องพบจากภาพกล้องในแต่ละขั้นตอน</p></div><button class="btn btn-accent" id="saveSop"><svg class="icon"><use href="#ic-check"/></svg> บันทึก SOP</button></div>
+          <div class="panel"><div class="panel-head"><div><h3>ขั้นตอนมาตรฐาน</h3></div><button class="btn btn-outline small-button" id="addStep">+ เพิ่มขั้นตอน</button></div><div class="sop-table-head"><span>#</span><span>ชื่อขั้นตอน</span><span>สีของชิ้นส่วน</span><span>จัดลำดับ</span></div><div id="sopTable" class="sop-table"></div><div class="info-banner"><svg class="icon"><use href="#ic-info"/></svg><span>ตรวจเฉพาะลำดับ สี และจำนวนชิ้นที่มองเห็น ไม่ตรวจตำแหน่ง การขันแรงบิด หรือคุณภาพประกอบจริง</span></div></div>
+          <div class="tip-card"><div class="tip-symbol"><svg class="icon"><use href="#ic-spark"/></svg></div><div><h3>แนวทางเตรียมชิ้นงานทดสอบ</h3><p>ใช้แผ่นฐานสีเขียวและกระดาษหรือบล็อกสีแดง น้ำเงิน เหลือง วางทีละชิ้นให้กล้องมองเห็น โดยอย่าเอาชิ้นเก่าออก จัดไฟให้สม่ำเสมอและวางชิ้นส่วนในบริเวณกึ่งกลางภาพ</p></div></div>
+        </section>
+
+        <section class="view" id="view-reports">
+          <div class="section-head"><div><h1>ประวัติการตรวจ <span class="title-muted"></span></h1><p class="subtitle">ผลการตรวจจากกล้องสดและวิดีโอ พร้อมลำดับเหตุการณ์และหลักฐานที่เก็บไว้</p></div><button class="btn btn-outline" id="reloadReports"><svg class="icon"><use href="#ic-refresh"/></svg> รีเฟรช</button></div>
+          <div class="panel"><div class="panel-head"><div><h3>รายงานล่าสุด</h3></div><span class="toolbar-hint" id="reportCount" aria-live="polite">คลิกรายการเพื่อดูรายละเอียด</span></div><div class="report-filters"><input id="reportSearch" type="search" placeholder="ค้น QR / พนักงาน / รหัสรายงาน…" aria-label="ค้นหารหัสรายงาน"><select id="reportStatus" aria-label="กรองผลตรวจ"><option value="all">ผลตรวจทั้งหมด</option><option value="pass">ผ่าน SOP</option><option value="review">ต้องตรวจสอบ</option><option value="running">กำลังทำ</option></select><select id="reportMode" aria-label="กรองวิธีตรวจ"><option value="all">วิธีตรวจทั้งหมด</option><option value="live">กล้องสด</option><option value="upload">วิดีโอย้อนหลัง</option><option value="flow">งานผลิต QR</option></select></div><div class="report-table-wrap"><table class="report-table"><thead><tr><th>QR / รหัสรายงาน</th><th>วันที่ตรวจ (เวลาไทย)</th><th>แหล่งวิดีโอ</th><th>ผลตรวจ</th><th>ขั้นตอนที่ผ่าน</th><th></th></tr></thead><tbody id="reportRows"><tr><td colspan="6" class="empty-table">ยังไม่มีประวัติการตรวจ</td></tr></tbody></table></div></div>
+        </section>
+        <footer class="footer"><span class="footer-brand"><img class="brand-image" src="/static/brand/sopvision-logo-current.png?v=brand-4" width="1024" height="338" alt="SOPVision AI — Intelligent Inspection"><span class="footer-accent">/</span>ระบบตรวจงานประกอบ</span><span></span></footer>
+      </div>
+    </main>
+  </div>
+  <div class="drawer-backdrop" id="drawerBackdrop" hidden><aside class="drawer" aria-label="รายละเอียดรายงาน"><div class="drawer-header"><div><h2 id="drawerTitle">รายงานการตรวจ</h2></div><button class="icon-button" id="closeDrawer"><svg class="icon"><use href="#ic-x"/></svg></button></div><div class="drawer-content" id="drawerContent"></div></aside></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/static/camera-share.js?v=supervisor-1" defer></script>
+  <script src="/static/app.js?v=station-layout-9" defer></script>
+  <script src="/static/production.js?v=word-7" defer></script>
+</body></html>

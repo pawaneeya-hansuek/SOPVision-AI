@@ -1,0 +1,54 @@
+const {chromium}=require('../.test-node/node_modules/playwright');
+const fs=require('fs'),path=require('path'),assert=require('assert');
+const base='http://127.0.0.1:8765',root=path.resolve(__dirname,'..'),password='Browser-Test-Only-739';
+(async()=>{
+ const browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true,args:['--use-fake-ui-for-media-stream','--use-fake-device-for-media-stream']});
+ const ctx=await browser.newContext({permissions:['camera'],acceptDownloads:true,viewport:{width:1440,height:1000}}),page=await ctx.newPage(),errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ const status=await(await ctx.request.get(base+'/api/auth/status')).json();
+ if(!status.configured){
+  const code=fs.readFileSync(path.join(root,'.test-access-ui/browser.admin-setup-code'),'utf8').trim();
+  await page.goto(base+'/setup?token='+encodeURIComponent(code));
+  await page.waitForFunction(()=>document.getElementById('codeLabel').hidden===false);
+  assert(!page.url().includes('token='));
+  await page.locator('#username').fill('browseradmin');await page.locator('#displayName').fill('Browser Admin');
+  await page.locator('#password').fill(password);await page.locator('#confirmPassword').fill(password);await page.locator('#submit').click();
+ }else{await page.goto(base+'/login');await page.locator('#username').fill('browseradmin');await page.locator('#password').fill(password);await page.locator('#submit').click();}
+ await page.waitForURL('**/admin');await page.waitForFunction(()=>window.Auth?.account);
+ const me=await page.evaluate(()=>Auth.account);assert(me.role==='admin');
+ const before=await page.evaluate(async()=>await(await fetch('/api/flow/admin')).json());
+ await page.goto(base+'/worker');await page.waitForSelector('#workMode');await page.waitForFunction(()=>document.querySelector('#station').options.length===3);
+ assert(await page.locator('#operator').inputValue()==='STATION-1');assert(!(await page.locator('#operator').isVisible()));
+ await page.locator('#workMode').selectOption('test');await page.locator('#testLabel').fill('Browser fast test '+Date.now());await page.locator('#newTestRun').click();
+ await page.waitForFunction(()=>document.getElementById('testRun').value.length>0);
+ const firstRun=await page.locator('#testRun').inputValue();
+ await page.locator('#openCamera').click();await page.waitForFunction(()=>document.querySelector('#video').videoWidth>0);
+ await page.locator('#qr').fill('BROWSER-QR-'+Date.now());await page.locator('#start').click();
+ await page.waitForFunction(()=>sessionStorage.getItem('workerActive'));
+ const sid=await page.evaluate(()=>sessionStorage.getItem('workerActive'));assert(await page.locator('#workMode').isDisabled());
+ // Synthetic camera is for UI/transport checks, not a claimed physical-camera accuracy test.
+ const abort=await page.evaluate(async id=>{const r=await fetch('/api/flow/abort/'+id,{method:'POST'});return {status:r.status,data:await r.json()};},sid);
+ assert(abort.status===200);
+ await page.goto(base+'/admin');await page.waitForFunction(()=>document.querySelector('#scopeFilter'));
+ const after=await page.evaluate(async()=>await(await fetch('/api/flow/admin')).json());
+ assert(after.stats.total_attempts===before.stats.total_attempts);
+ await page.locator('#scopeFilter').selectOption('test');
+ await page.waitForFunction(()=>document.querySelector('#rows').textContent.includes('BROWSER-QR-'));
+ const [download]=await Promise.all([page.waitForEvent('download'),page.locator('#exportCsv').click()]);
+ const file=await download.path();const csv=fs.readFileSync(file,'utf8');assert(csv.includes('BROWSER-QR-')&&csv.includes('__TEST__:'));
+ await page.goto(base+'/access');await page.waitForFunction(()=>document.getElementById('reviewScope'));
+ await page.locator('#reviewScope').selectOption('test');await page.waitForSelector('[data-attempt="'+sid+'"]');
+ await page.locator('[data-attempt="'+sid+'"] textarea').fill('ตรวจหลักฐานแล้ว อนุมัติให้ทดสอบรอบใหม่');
+ await page.locator('[data-attempt="'+sid+'"] [value="rework_approved"]').click();
+ await page.waitForFunction(id=>!document.querySelector('[data-attempt="'+id+'"]'),sid);
+ await page.locator('#reviewStatus').selectOption('closed');await page.waitForFunction(()=>document.querySelector('#reviewRows').textContent.includes('อนุมัติให้ตรวจซ้ำ'));
+ await page.screenshot({path:path.join(root,'backups/access-control-preview.png'),fullPage:true});
+ await page.goto(base+'/worker');await page.waitForSelector('#newTestRun');await page.locator('#testLabel').fill('Another round');await page.locator('#newTestRun').click();
+ await page.waitForFunction(first=>document.getElementById('testRun').value!==first,firstRun);
+ await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(root,'backups/access-worker-mobile.png'),fullPage:true});
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2));
+ await page.goto(base+'/access');await page.waitForSelector('#userForm');await page.screenshot({path:path.join(root,'backups/access-mobile-preview.png'),fullPage:true});
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2));
+ assert.deepStrictEqual(errors,[]);console.log('PASS: real browser setup, login, test round, synthetic camera transport, production totals, CSV download, supervisor review, new round, mobile layout; no JS errors');
+ await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});

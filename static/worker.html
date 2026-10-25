@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb"><title>หน้าพนักงาน | SOPVision AI</title>
+  <link rel="stylesheet" href="/static/style.css"><link rel="stylesheet" href="/static/clean.css"><link rel="stylesheet" href="/static/worker.css?v=buffered-inspection-4"><link rel="stylesheet" href="/static/vision.css">
+<link rel="stylesheet" href="/static/auth.css"><script src="/static/auth-client.js?v=role-login-2" defer></script><link rel="icon" type="image/png" href="/static/brand/sopvision-logo-current.png?v=brand-4"><link rel="stylesheet" href="/static/brand.css?v=brand-4"></head>
+<body>
+  <main class="worker-shell">
+    <header class="worker-header"><a class="worker-brand" href="/"><img class="brand-image" src="/static/brand/sopvision-logo-current.png?v=brand-4" width="1024" height="338" alt="SOPVision AI — Intelligent Inspection"></a><span>หน้าพนักงาน</span><a href="/login">เข้าสำหรับแอดมิน ↗</a></header>
+    <div class="section-head"><div><h1>ตรวจงานประจำสเตชั่น</h1><p class="subtitle">เลือกสเตชั่น เปิดกล้อง แล้วสแกน QR เพื่อเริ่มงาน</p></div><span class="worker-chip" id="cameraBadge">ยังไม่เปิดกล้อง</span></div>
+    <section class="panel worker-settings" aria-label="ตั้งค่าประจำสเตชั่น">
+      <label>สเตชั่นปฏิบัติงาน<select id="station" class="flow-input" disabled></select></label>
+      <label hidden>รหัสสเตชั่น<input id="operator" class="flow-input" maxlength="80" placeholder="เช่น EMP-001" autocomplete="username"></label>
+      <label>กล้อง<select id="camera" class="flow-input"><option value="">กล้องหลัง / กล้องเริ่มต้น</option></select></label>
+      <button id="openCamera" class="btn btn-accent">เปิดกล้อง</button>
+      <button id="closeCamera" class="btn btn-outline" disabled>ปิดกล้อง</button>
+    </section>
+    <div id="message" class="worker-message" role="status" aria-live="polite">เลือกสเตชั่น แล้วเปิดกล้องเพื่อรอสแกน QR</div>
+    <div class="worker-grid">
+      <section class="panel worker-camera">
+        <div class="panel-head"><div><h3>กล้องประจำสเตชั่น</h3></div><span id="clock">00:00</span></div>
+        <div class="worker-video"><video id="video" autoplay muted playsinline></video><canvas id="workerOverlay" class="vision-overlay"></canvas><div id="cameraEmpty">เปิดกล้องคอมพิวเตอร์ หรือเปิดหน้านี้บนมือถือเพื่อใช้กล้องหลัง</div><span id="videoLabel">รอสแกน QR</span><button id="expandCamera" type="button" aria-pressed="false">ขยายภาพ ⛶</button></div>
+        <div class="worker-scan"><form id="scanForm"><label for="qr">QR ชิ้นงาน / เครื่องสแกน USB</label><div class="flow-inline"><input id="qr" class="flow-input" maxlength="300" placeholder="เล็ง QR เข้ากล้อง หรือยิงรหัสแล้วกด Enter" autocomplete="off"><button id="start" class="btn btn-accent" type="submit">สแกนเริ่มงาน</button></div></form><p id="scanHint">กล้องอ่าน QR อัตโนมัติ งานที่ครบจะผ่านเอง สแกนชิ้นถัดไปเพื่อปิดงานปัจจุบัน</p></div>
+      </section>
+      <section class="panel worker-sop">
+        <div class="panel-head"><div><h3 id="stationTitle">ขั้นตอนของสเตชั่น</h3></div><span id="progress" class="worker-chip">0 / 0</span></div>
+        <div class="worker-current"><small>ชิ้นงานปัจจุบัน</small><strong id="currentJob">รอสแกนชิ้นงาน</strong><span id="currentOperator">—</span></div>
+        <section id="priorCheck" hidden><h4 id="priorCheckTitle">ตรวจงานจากสเตชั่นก่อนหน้า</h4><div id="priorSteps" class="step-list"></div></section>
+        <div id="steps" class="step-list"></div>
+        <div class="worker-actions"><button id="separate" class="btn btn-outline" disabled hidden>ตรวจสถานะคำขอที่ค้าง</button></div>
+        <p class="worker-rule">พบสีของขั้นตอนปัจจุบัน ผ่านทันที ไม่ต้องถือภาพนิ่ง ขั้นที่ผ่านแล้วจะถูกบันทึกไว้ จากนั้นทำสีถัดไปตามลำดับ งานที่ยังไม่พบสีครบหรือผิดลำดับจะไม่ผ่าน</p>
+      </section>
+    </div>
+    <section class="panel worker-history"><div class="panel-head"><div><h3>รายการที่ตรวจจากเครื่องนี้</h3></div><span id="counts">ผ่าน 0 · แยกพัก 0</span></div><div id="history"><p class="flow-empty">ยังไม่มีรายการตรวจ</p></div></section>
+    <details class="panel worker-mobile"><summary>ทดสอบด้วยกล้องมือถือ</summary><p>เชื่อมมือถือกับ Wi-Fi เดียวกับคอมพิวเตอร์ แล้วเปิด URL ของระบบผ่าน HTTPS โดยเติม <b>/worker?station=1</b> เลือกสเตชั่นและกดเปิดกล้อง ระบบจะใช้กล้องหลังของมือถือเพื่อสแกน QR และตรวจงานบนหน้านี้</p><p>รัน <b>start_mobile.bat</b> บนคอมพิวเตอร์เพื่อดู URL และเริ่ม HTTPS สำหรับทดสอบ ดูขั้นตอนติดตั้งใบรับรองใน README ก่อนใช้งานกล้องผ่านมือถือ</p><p>ใช้ชิ้นงานสีจำลองตาม SOP โดยวางทีละสี ให้เห็นสีเดิมค้างไว้ ระบบใช้สีร่วมกับกรอบตำแหน่ง ขนาด รูปร่าง และลำดับเวลา ต้องตั้งค่าให้ตรงชิ้นงาน และทดสอบกับงานจริงก่อนยืนยันความแม่นยำ</p></details>
+  </main>
+  <script src="/static/camera-share.js?v=priority-inspection-3" defer></script>
+  <script src="/static/worker.js?v=prior-station-check-9" defer></script>
+</body></html>

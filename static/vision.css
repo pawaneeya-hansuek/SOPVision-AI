@@ -1,0 +1,41 @@
+.vision-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:2}
+.camera-feed,.worker-video,.flow-video-wrap{position:relative}
+.flow-roi-panel{margin:22px 0;padding:22px}
+.flow-roi-note{font-size:13px;line-height:1.7;color:#6f7f94}
+.flow-roi-controls{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:18px 0}
+.flow-roi-controls label{display:grid;gap:7px;min-width:150px;flex:1;font-size:12px;font-weight:650;color:#64748b}
+.flow-roi-editor{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(240px,.7fr);gap:18px}
+.flow-roi-preview{position:relative;min-height:240px;aspect-ratio:16/9;overflow:hidden;border-radius:10px;background:#111b2d}
+.flow-roi-preview video{display:none}
+.flow-roi-preview canvas{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair}
+.flow-roi-preview #flowRoiPlaceholder{position:absolute;inset:0;display:grid;place-items:center;color:#bac7da;font-size:14px;pointer-events:none}
+.flow-roi-preview #flowRoiPlaceholder[hidden]{display:none}
+.flow-roi-fields{display:grid;grid-template-columns:1fr 1fr;align-content:start;gap:10px}
+.flow-roi-fields>p{grid-column:1/-1;margin:0;color:#52647d;font-weight:650}
+.flow-roi-fields label{display:grid;gap:6px;font-size:12px;color:#64748b}
+.flow-roi-fields input{min-width:0;padding:9px;border:1px solid #dce4ef;border-radius:7px;font:inherit}
+.flow-roi-fields .flow-roi-note{font-size:11px;font-weight:400}
+.flow-roi-panel button:disabled{opacity:.5}
+.live-station-label,.upload-station-label{display:grid;gap:7px;max-width:380px;margin:0 0 14px;font-size:12px;font-weight:650;color:#64748b}
+.step-name .step-reason{display:block;margin-top:3px;color:#8a6547;font-size:11px}
+.step-item.candidate,.step-item.verifying{border-color:#e8c778;background:#fffaf0}
+.step-item.uncertain,.step-item.missing,.step-item.out_of_order{border-color:#e7b7a8;background:#fff4f1}
+.flow-roi-panel .panel-head{padding:0}
+@media(max-width:800px){.flow-roi-editor{grid-template-columns:1fr}.flow-roi-controls>*{flex:1 1 150px}.flow-roi-panel{padding:16px}}
+
+/* Keep the live setup and selected station's checklist together. */
+#view-live .live-station-label{max-width:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:18px 20px;margin-bottom:18px;background:#fff;border:1px solid var(--border);border-radius:16px}
+#view-live .live-station-label label{display:grid;gap:6px;min-width:0;align-content:start}
+#view-live .live-station-label .flow-input{width:100%;min-width:0;margin:0}
+#view-live .work-grid{align-items:start}
+#view-live .live-steps-station{margin:5px 0 0;font-size:12px;font-weight:500;color:#64748b}
+#view-live .step-item{background:#f8fafc;border-color:#dbe4ef;color:#20324a}
+#view-live .step-item.passed{background:#f0fdf4;border-color:#bbf7d0}
+#view-live .step-item.candidate,#view-live .step-item.verifying{background:#fffaf0;border-color:#e8c778}
+#view-live .step-item.uncertain,#view-live .step-item.missing,#view-live .step-item.out_of_order{background:#fff4f1;border-color:#e7b7a8}
+#view-live .step-name b{font-size:14px;line-height:1.5}
+#view-live .step-name span,#view-live .step-result{font-size:12px}
+#view-live .camera-overlay-tl{color:#e2e8f0;background:#0f172ae6;max-width:calc(100% - 24px);letter-spacing:0}
+#view-live .camera-overlay-tl strong{color:#fff}
+@media(max-width:1100px){#view-live .live-station-label{grid-template-columns:1fr 1fr}#view-live .live-station-label label:first-child{grid-column:1/-1}}
+@media(max-width:640px){#view-live .live-station-label{grid-template-columns:1fr;padding:16px;gap:12px}#view-live .step-result{white-space:normal;text-align:right}}

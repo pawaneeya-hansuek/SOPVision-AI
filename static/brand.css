@@ -1,0 +1,16 @@
+/* One supplied brand asset, proportionally sized for every workspace. */
+.nav a.nav-link{text-decoration:none}
+.brand-image{display:block;width:100%;height:auto;object-fit:contain}
+.login-brand{display:block;width:262px;height:auto;flex-shrink:0;background:#fff;border-radius:9px;overflow:hidden}
+.login-brand .brand-image{width:100%;height:auto;transform:none}
+.workspace-brand{display:block;margin:0 0 20px;padding:0 0 15px;max-width:100%;text-decoration:none}
+.workspace-brand .brand-image{width:100%;height:auto;max-width:210px;background:#fff}
+.worker-header .worker-brand{display:block;width:210px;max-width:45%;flex-shrink:0;line-height:0}
+.worker-header .worker-brand .brand-image{width:100%;height:auto;background:#fff;border-radius:6px}
+.footer-brand{display:flex;align-items:center;gap:12px}
+.footer-brand .brand-image{width:125px;height:auto;background:#fff;border-radius:4px}
+.form-footer-brand{display:inline-flex;align-items:center}
+.form-footer-brand .brand-image{width:95px;height:auto}
+.form-footer{align-items:center}
+@media(max-width:760px){.login-brand{width:218px;height:auto}.worker-header .worker-brand{width:180px}.footer-brand{flex-wrap:wrap}}
+@media(max-width:360px){.login-brand{width:190px;height:auto}.worker-header .worker-brand{width:155px}.form-footer-brand .brand-image{width:78px}}

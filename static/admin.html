@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="th"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>แอดมินงานผลิต | SOPVision AI</title>
+  <link rel="stylesheet" href="/static/style.css"><link rel="stylesheet" href="/static/clean.css">
+  <link rel="stylesheet" href="/static/worker.css?v=large-camera-1"><link rel="stylesheet" href="/static/admin.css?v=reports-4">
+  <link rel="stylesheet" href="/static/camera-monitor.css"><link rel="stylesheet" href="/static/portal-nav.css?v=1"><script src="/static/portal-nav.js?v=1" defer></script>
+<link rel="stylesheet" href="/static/auth.css"><script src="/static/auth-client.js?v=role-login-2" defer></script><link rel="icon" type="image/png" href="/static/brand/sopvision-logo-current.png?v=brand-4"><link rel="stylesheet" href="/static/brand.css?v=brand-4"></head><body><main class="worker-shell admin-shell">
+  <header class="worker-header"><a class="worker-brand" href="/"><img class="brand-image" src="/static/brand/sopvision-logo-current.png?v=brand-4" width="1024" height="338" alt="SOPVision AI — Intelligent Inspection"></a><span>ผู้ดูแลระบบ</span><a href="/worker">หน้าพนักงาน ↗</a></header>
+  <div class="section-head"><div><h1>ติดตามงานผลิต</h1><p class="subtitle">ดูผลตรวจแต่ละสเตชั่นและส่งออกรายงาน</p></div><div class="hero-actions"><button class="btn btn-outline" id="refresh">รีเฟรชข้อมูล</button><button class="btn btn-accent" id="exportCsv">ส่งออก CSV / Excel</button><button class="btn btn-outline" id="exportPrint">รายงาน / PDF</button></div></div>
+  <div id="sync" class="worker-message" role="status" aria-live="polite">กำลังโหลดข้อมูล…</div>
+  <nav class="portal-nav" data-portal-nav="admin" data-portal-hash role="tablist" aria-label="เลือกหัวข้อแอดมิน">
+    <button id="tab-overview" role="tab" aria-controls="adminOverview" data-portal-tab="overview">ภาพรวม / สเตชั่น</button>
+    <button id="tab-live" role="tab" aria-controls="adminLive" data-portal-tab="live">กล้องสด</button>
+    <button id="tab-records" role="tab" aria-controls="adminRecords" data-portal-tab="records">รายการตรวจ / รายงาน</button>
+    <button id="tab-trace" role="tab" aria-controls="adminTrace" data-portal-tab="trace">ค้นประวัติ QR</button>
+    <button id="tab-videos" role="tab" aria-controls="adminVideos" data-portal-tab="videos">วิดีโอย้อนหลัง</button>
+  </nav>
+  <section id="adminLive" class="camera-monitor" aria-label="กล้องทั้งหมดที่เปิดในระบบ" role="tabpanel" aria-labelledby="tab-live" data-portal-group="admin" data-portal-panel="live" hidden>
+    <div class="admin-title"><h3>กล้องสดทั้งหมด</h3><span id="cameraLiveStatus" role="status">กำลังเชื่อมต่อกล้อง…</span></div>
+    <div id="cameraLiveGrid" class="admin-stations"></div>
+    <p class="admin-note">แสดงกล้องที่เปิดอยู่ หากไม่ได้รับภาพจะแสดงว่าออฟไลน์</p>
+  </section>
+  <section id="adminTrace" class="panel traceability-panel" aria-label="ค้นประวัติงานรวมด้วย QR" role="tabpanel" aria-labelledby="tab-trace" data-portal-group="admin" data-portal-panel="trace" hidden>
+    <div class="panel-head"><div><h3>ค้นประวัติจาก QR</h3></div></div>
+    <form id="traceabilityForm" class="admin-filters">
+      <input id="traceabilityQr" class="flow-input" type="search" maxlength="200" required aria-label="QR งานหรือรหัสรอบงาน" placeholder="สแกน QR หรือกรอก attempt ID">
+      <button class="btn btn-accent" type="submit">ค้นประวัติทั้งหมด</button>
+    </form>
+    <div id="traceabilityResult" class="traceability-result" role="status">กรอก QR หรือรหัสรอบงานเพื่อค้นหา</div>
+  </section>
+  
+  <div id="adminOverview" role="tabpanel" aria-labelledby="tab-overview" data-portal-group="admin" data-portal-panel="overview"><p class="admin-note" id="productionScope">รายงานจะรวมทุกรายการตามตัวกรองที่เลือก</p><div id="stats" class="admin-stats"></div>
+  <section aria-label="สเตชั่นที่กำลังทำงาน"><div class="admin-title"><h3>สถานะสเตชั่น</h3><span>ภาพล่าสุดจากกล้องพนักงาน</span></div><div id="stations" class="admin-stations"></div></section>
+  </div><section id="adminRecords" class="panel admin-log" role="tabpanel" aria-labelledby="tab-records" data-portal-group="admin" data-portal-panel="records" hidden><div class="panel-head"><div><h3>รายการตรวจงาน</h3></div><span id="rowCount">—</span></div>
+    <div class="admin-filters"><input id="search" class="flow-input" type="search" maxlength="300" aria-label="ค้นหางานหรือพนักงาน" placeholder="ค้นหา QR / รหัสพนักงาน / รหัสรายการ">
+      <select id="stationFilter" class="flow-input" aria-label="กรองสเตชั่น"><option value="">ทุกสเตชั่น</option><option value="1">สเตชั่น 1</option><option value="2">สเตชั่น 2</option><option value="3">สเตชั่น 3</option></select>
+      <select id="scopeFilter" class="flow-input" aria-label="ประเภทงาน"><option value="production">ผลิตจริง</option><option value="test">ทดสอบ</option><option value="all">ทั้งหมด</option></select><select id="stateFilter" class="flow-input" aria-label="กรองสถานะ"><option value="all">ทุกสถานะ</option><option value="active">กำลังทำ</option><option value="passed">ผ่านสเตชั่น</option><option value="blocked">แยกพัก</option><option value="interrupted">หยุดกลางงาน</option></select><label>ตั้งแต่ (เวลาไทย)<input id="sinceFilter" class="flow-input" type="datetime-local"></label><label>ถึง (เวลาไทย)<input id="untilFilter" class="flow-input" type="datetime-local"></label>
+    </div>
+    <div class="report-table-wrap"><table class="report-table"><thead><tr><th>QR / รหัสรายการ</th><th>สเตชั่น</th><th>พนักงาน</th><th>ผล / ขั้นตอน</th><th>เวลาเริ่ม (ไทย)</th><th>ข้อมูลวิดีโอ</th><th>รายละเอียด</th></tr></thead><tbody id="rows"><tr><td colspan="7" class="empty-table">กำลังโหลด…</td></tr></tbody></table></div>
+    <div class="admin-pagination"><button id="prev" class="btn btn-outline" disabled>ก่อนหน้า</button><span id="page">—</span><button id="next" class="btn btn-outline" disabled>ถัดไป</button></div>
+  </section>
+  <section id="adminVideos" class="panel admin-log" aria-label="วิดีโอกล้องย้อนหลัง" role="tabpanel" aria-labelledby="tab-videos" data-portal-group="admin" data-portal-panel="videos" hidden>
+    <div class="panel-head"><div><h3>วิดีโอกล้องย้อนหลัง</h3></div><span id="cameraArchiveCount">—</span></div>
+    <div class="admin-filters camera-filters">
+      <input id="cameraSearch" class="flow-input" type="search" maxlength="200" aria-label="ค้นหากล้องหรือ QR งาน" placeholder="ค้น QR / พนักงาน / ชื่อกล้อง / รหัสกล้อง">
+      <select id="cameraStation" class="flow-input" aria-label="สเตชั่นกล้อง"><option value="">ทุกสเตชั่น</option><option value="1">สเตชั่น 1</option><option value="2">สเตชั่น 2</option><option value="3">สเตชั่น 3</option></select>
+      <select id="cameraSource" class="flow-input" aria-label="หน้าที่เปิดกล้อง"><option value="all">ทุกหน้า</option><option value="worker">หน้าพนักงาน</option><option value="flow">QR Flow</option><option value="live">ตรวจสด</option><option value="qr">กล้องสแกน QR</option></select>
+      <label>ตั้งแต่<input id="cameraSince" class="flow-input" type="datetime-local"></label><label>ถึง<input id="cameraUntil" class="flow-input" type="datetime-local"></label>
+    </div>
+    <p id="cameraArchiveStatus" class="admin-note camera-archive-note" role="status">คลิปย้อนหลังแบ่งทุก 30 วินาที เปิดดูคลิปได้เมื่อบันทึกครบแต่ละช่วง</p>
+    <div class="report-table-wrap"><table class="report-table"><thead><tr><th>เวลาเริ่ม (ไทย)</th><th>กล้อง / พนักงาน</th><th>สเตชั่น / หน้า</th><th>สถานะ / ขนาด</th><th>ย้อนหลัง</th></tr></thead><tbody id="cameraArchiveRows"><tr><td colspan="5" class="empty-table">กำลังโหลด…</td></tr></tbody></table></div>
+    <div class="admin-pagination"><button id="cameraPrev" class="btn btn-outline" disabled>ก่อนหน้า</button><span id="cameraPage">—</span><button id="cameraNext" class="btn btn-outline" disabled>ถัดไป</button></div>
+    <div id="cameraPlayerPanel" class="camera-player-panel" data-portal-overlay aria-labelledby="cameraPlayerTitle" hidden><div class="access-title"><h3 id="cameraPlayerTitle">วิดีโอย้อนหลัง</h3><button class="btn btn-outline portal-dialog-close" data-portal-close>ปิดวิดีโอ</button></div><p id="cameraPlayerNotice" role="status"></p><video id="cameraPlayback" controls playsinline preload="metadata"></video><a id="cameraVideoLink" target="_blank" rel="noopener">เปิดคลิปในหน้าต่างใหม่ ↗</a></div>
+  </section>
+  <section class="panel admin-detail" id="detail" data-portal-overlay hidden aria-label="รายละเอียดงาน"><div class="panel-head"><h3>รายละเอียดงาน</h3><button id="closeDetail" class="btn btn-outline">ปิดรายละเอียด</button></div><div id="detailContent"></div></section>
+  <p class="admin-note">รอบงานนับแยกตามสเตชั่น ส่วนชิ้นงานเสร็จสมบูรณ์ต้องผ่านครบทุกสเตชั่น</p>
+</main><script src="/static/admin.js?v=word-7" defer></script><script src="/static/camera-admin.js?v=mp4-playback-8" defer></script></body></html>
